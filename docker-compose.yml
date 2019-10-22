@@ -7,6 +7,8 @@ services:
     volumes:
       - ./server/:/usr/app
       - /usr/app/node_modules
+    depends_on:
+      - mariadb
     ports:
       - "8080:8080"
     environment:

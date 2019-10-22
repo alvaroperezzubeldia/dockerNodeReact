@@ -20,7 +20,7 @@ const mc = mysql.createConnection({
  
 // connect to database
 mc.connect();
-console.log(mc.state)
+
 
 
 // App
@@ -32,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 var routes = require('./appRoutes'); //importing route
 routes(app); //register the route
+
 
 // Static files
 app.use(express.static(CLIENT_BUILD_PATH));
@@ -49,8 +50,8 @@ app.post('/post', function(req, res) {
   res.set('Content-Type', 'application/json');
   let data = {
     message: 'Message from API Post',
-    user_id: req.body.id,
-    token: req.body.token,
+    task: req.body.task,
+    status: req.body.status,
   };
   res.send(JSON.stringify(data, null, 2));
 });

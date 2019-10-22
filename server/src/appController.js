@@ -1,65 +1,65 @@
 'use strict';
 
-var Task = require('./appModel.js');
+var Question = require('./appModel.js');
 
-exports.list_all_tasks = function(req, res) {
-  Task.getAllTask(function(err, task) {
+exports.list_all_questions = function(req, res) {
+  Question.getAllQuestion(function(err, question) {
 
     console.log('controller')
     if (err)
       res.send(err);
-      console.log('res', task);
-    res.send(task);
+      console.log('res', question);
+    res.send(question);
   });
 };
 
 
 
-exports.create_a_task = function(req, res) {
-  var new_task = new Task(req.body);
+exports.create_a_question = function(req, res) {
+  var new_question = new Question(req.body);
 
   //handles null error 
-   if(!new_task.task || !new_task.status){
+   if(!new_question.question || !new_question.status){
 
-            res.status(400).send({ error:true, message: 'Please provide task/status' });
+            res.status(400).send({ error:true, message: 'Please provide question/status' });
 
         }
 else{
   
-  Task.createTask(new_task, function(err, task) {
+  Question.createQuestion(new_question, function(err, question) {
     
     if (err)
       res.send(err);
-    res.json(task);
+    res.json(question);
   });
 }
 };
 
 
-exports.read_a_task = function(req, res) {
-  Task.getTaskById(req.params.taskId, function(err, task) {
+exports.read_a_question = function(req, res) {
+  Question.getQuestionById(req.params.questionId, function(err, question) {
     if (err)
       res.send(err);
-    res.json(task);
+    res.json(question);
   });
 };
 
 
-exports.update_a_task = function(req, res) {
-  Task.updateById(req.params.taskId, new Task(req.body), function(err, task) {
+exports.update_a_question = function(req, res) {
+  Question.updateById(req.params.questionId, new Question(req.body), function(err, question) {
     if (err)
       res.send(err);
-    res.json(task);
+    res.json(question);
   });
 };
 
 
-exports.delete_a_task = function(req, res) {
+exports.delete_a_question = function(req, res) {
 
 
-  Task.remove( req.params.taskId, function(err, task) {
+  Question.remove( req.params.questionId, function(err, question) {
     if (err)
       res.send(err);
-    res.json({ message: 'Task successfully deleted' });
+    res.json({ message: 'Question successfully deleted' });
   });
 };

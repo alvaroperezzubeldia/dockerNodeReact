@@ -60,7 +60,7 @@ function NewForm() {
   }
 
   const callApi = async () => {
-    const resp = await fetch('/tasks');
+    const resp = await fetch('/questions');
 
     let text = await resp.text();
 
@@ -79,15 +79,15 @@ function NewForm() {
   };
 
   const callApi2 = async () => {
-    const resp = await fetch('/tasks', {
+    const resp = await fetch('/questions', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: 1,
-        token: 'tokasdfñlkajdsfañlksdjf',
+        question: "aa",
+        status: 1,
       }),
     })
     let text = await resp.text()
