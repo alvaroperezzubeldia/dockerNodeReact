@@ -9,8 +9,29 @@ const HOST = '0.0.0.0';
 
 const CLIENT_BUILD_PATH = path.join(__dirname, '../../client/build');
 
+const mysql = require('mysql');
+// connection configurations
+const mc = mysql.createConnection({
+    host: 'mariadb',
+    user: 'admin',
+    password: 'admin',
+    database: 'haig'
+});
+ 
+// connect to database
+mc.connect();
+console.log(mc.state)
+
+
 // App
 const app = express();
+var bodyParser = require('body-parser');
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
+
+var routes = require('./appRoutes'); //importing route
+routes(app); //register the route
 
 // Static files
 app.use(express.static(CLIENT_BUILD_PATH));
@@ -19,7 +40,17 @@ app.use(express.static(CLIENT_BUILD_PATH));
 app.get('/api', (req, res) => {
   res.set('Content-Type', 'application/json');
   let data = {
-    message: 'Message from API'
+    message: 'Message from API get'
+  };
+  res.send(JSON.stringify(data, null, 2));
+});
+
+app.post('/post', function(req, res) {
+  res.set('Content-Type', 'application/json');
+  let data = {
+    message: 'Message from API Post',
+    user_id: req.body.id,
+    token: req.body.token,
   };
   res.send(JSON.stringify(data, null, 2));
 });

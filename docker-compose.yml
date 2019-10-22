@@ -23,3 +23,32 @@ services:
       - server
     ports:
       - "3000:3000"
+  mariadb:
+    image: mariadb:latest
+    volumes:
+        - mariadb:/var/lib/mysql
+        - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    container_name: haigbd
+    ports:
+        - 3306:3306
+    environment:
+        TZ: "Europe/Madrid"
+        MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+        MYSQL_ROOT_PASSWORD: "admin"
+        MYSQL_USER: 'admin'
+        MYSQL_PASSWORD: 'admin'
+        MYSQL_DATABASE: 'haig'
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+        - mariadb
+    ports:
+        - 8181:80
+    container_name: phpmyadmin_haig
+    environment:
+        PMA_HOST: mariadb
+        MYSQL_USER: 'admin'
+        MYSQL_PASSWORD: 'admin'
+        MYSQL_ROOT_PASSWORD: 'admin'
+volumes:
+  mariadb:
